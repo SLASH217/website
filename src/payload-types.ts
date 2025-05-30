@@ -70,6 +70,8 @@ export interface Config {
     users: User;
     media: Media;
     members: Member;
+    domains: Domain;
+    sponsors: Sponsor;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -78,7 +80,6 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    members: MembersSelect<false> | MembersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -139,6 +140,7 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -150,30 +152,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "members".
- */
-export interface Member {
-  id: number;
-  name: string;
-  email: string;
-  rollNumber: string;
-  phoneNumbers?:
-    | {
-        number?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  linkedin?: string | null;
-  github?: string | null;
-  instagram?: string | null;
-  profilePic?: (number | null) | Media;
-  role: 'lead' | 'vice lead' | 'executive' | 'leads' | 'ex-leads';
-  domain?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -189,10 +167,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
-      } | null)
-    | ({
-        relationTo: 'members';
-        value: number | Member;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -257,6 +231,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -268,29 +243,6 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "members_select".
- */
-export interface MembersSelect<T extends boolean = true> {
-  name?: T;
-  email?: T;
-  rollNumber?: T;
-  phoneNumbers?:
-    | T
-    | {
-        number?: T;
-        id?: T;
-      };
-  linkedin?: T;
-  github?: T;
-  instagram?: T;
-  profilePic?: T;
-  role?: T;
-  domain?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -8,7 +8,7 @@
 cp .env.example .env
 ```
 
-2. Run postgres container
+2. Run postgres and minio(local s3) container
 
 ```sh
 docker compose up -d
@@ -20,6 +20,24 @@ docker compose up -d
 pnpm dev
 ```
 
-4. Admin dashboard is located at [https://localhost:3000/admin](https://localhost:3000/admin)
+4. Seed your database
 
-5. Go to admin dashboard and create your own user for local development. (will add a seed script later once we have a few collections to work on)
+```sh
+pnpm seed
+```
+
+5. Admin dashboard is located at [https://localhost:3000/admin](https://localhost:3000/admin)
+
+6. If you want to access minio dashboard go to [https://localhost:9001](https://localhost:9001)
+
+   - Login using
+     username: `minioadmin`
+     password: `minioadmin`
+
+7. If you've made changes to `Collections` or added a new one, run
+
+```sh
+pnpm payload migrate:create
+```
+
+Commit the migration files too.
